@@ -1,9 +1,11 @@
+using Photon.Pun;
 using UnityEngine;
 using Zenject;
 
 public class UserInput : MonoBehaviour
 {
     //Подключаем к игроку, класс связка между системой управления MapCurrent и классом Move и Camera
+    public int CodePlayer;
 
     public InputData InputData;//Передадим данные
     public bool DebugLogOnOff;//для тестов
@@ -14,7 +16,18 @@ public class UserInput : MonoBehaviour
     {
         inputAction = new MapCurrent();//инициализируем карту input
         InputData=new InputData();
-        
+        //
+        Debug.Log(PhotonView.Get(this.gameObject).IsMine+"  "+ gameObject.GetHashCode());
+
+        if (PhotonView.Get(this.gameObject).IsMine)
+        {
+            
+        }
+        else
+        {
+            return;
+        }
+
         if (inputAction!=null)//проверим на null
         {
             //подпишем на event события нажатий и значения присвоим локальным переменым
@@ -51,9 +64,9 @@ public class UserInput : MonoBehaviour
         
     }
 
-
     void Update()
     {
+
         if (DebugLogOnOff)
         {
             Debug.Log($"Движение Х = {InputData.Move.x}, Движение Y = {InputData.Move.y}");

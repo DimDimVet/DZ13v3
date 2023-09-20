@@ -8,4 +8,5 @@ public interface IRegistrator
     RegistratorConstruction GetData(int hash);
     RegistratorConstruction GetDataCamera();
     RegistratorConstruction GetDataUserInput();
+    RegistratorConstruction GetDataPlayer();
 }

@@ -1,31 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
+
 
 public class Bull : MonoBehaviour
 {
-    [Inject] private IRegistrator dataReg;//получим данные управления в структуре
-    public BullSettings BullSettings;
+
+    [SerializeField] private BullSettings bullSettings;
+
+    private int hashGO;
+    private IRegistrator dataReg;
+    private RegistratorConstruction rezultListGO;
 
     [SerializeField] private GameObject decalGO;
     private int damage;
     private int speed;
     private Collider collaiderBullet;
     private Vector3 startPos;
-    private int hashCod;
 
     private void Start()
     {
-        damage = BullSettings.Damage;
-        speed = BullSettings.Speed;
+        damage = bullSettings.Damage;
+        speed = bullSettings.Speed;
         collaiderBullet = gameObject.GetComponent<Collider>();
-
-        transform.rotation = dataReg.OutPos.rotation;
-        transform.position = dataReg.OutPos.position;
         startPos = transform.position;
-        //hashCod = gameObject.GetHashCode();
-
     }
 
     private void Update()
@@ -54,27 +50,26 @@ public class Bull : MonoBehaviour
 
     private void ExecutorCollision(RaycastHit hit)
     {
-        int tempHsh = hit.collider.gameObject.GetHashCode();
-        RegistratorConstruction tempList = dataReg.GetData(tempHsh);
+        //ищем объект
+        hashGO = hit.collider.gameObject.GetHashCode();
+        dataReg = new RegistratorExecutor();//доступ к листу
+        rezultListGO = dataReg.GetData(hashGO);
+
         //Healt
-        if (tempList.Hash==tempHsh)
+        if (rezultListGO.Hash== hashGO)
         {
-            if (tempList.HealtObj!=null)
+            if (rezultListGO.HealtObj!=null)
             {
-                tempList.HealtObj.Damage=damage;
+                rezultListGO.HealtObj.Damage=damage;
             }
-            if (tempList.PlayerHealt!=null)
+            if (rezultListGO.PlayerHealt!=null)
             {
-                tempList.PlayerHealt.Damage=damage;
+                rezultListGO.PlayerHealt.Damage=damage;
             }
         }
         else
         {
             Debug.Log("No Script");
         }
-    }
-
-    public class Factory : PlaceholderFactory<Bull>
-    {
     }
 }

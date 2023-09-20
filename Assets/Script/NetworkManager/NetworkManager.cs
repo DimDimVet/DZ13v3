@@ -8,13 +8,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 {
     public GameObject PlayerSample;
     public List<Transform> SpawnPonts;
-    //
-    //public List<GameObject> InterObject;
-    //public List<Transform> InterTransformObject;
+
+    private int hashGO;
+    private IRegistrator dataReg;
+    private RegistratorConstruction rezultListInput;
 
     void Start()
     {
-        //PlayerSample.SetActive(false);
         PhotonNetwork.ConnectUsingSettings();//запустим тестовый мастер-сервер
     }
 
@@ -35,7 +35,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         int id = PhotonNetwork.LocalPlayer.ActorNumber;
-        Debug.Log("Подключен игрок по id" + id + " - с номером " + PhotonNetwork.CurrentRoom.PlayerCount);
+        
         //проверим на ошибку количества
         if (id > (SpawnPonts.Count+1))
         {
@@ -43,18 +43,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            //for (int i = 0; i < InterTransformObject.Count; i++)
-            //{
-            //    PhotonNetwork.Instantiate(InterObject[i].name, InterTransformObject[i].position, Quaternion.identity);
-            //}
-           // PhotonNetwork.Instantiate(ObjectSample.name, Transform.position, Quaternion.identity);
-
-            //PlayerSample.SetActive(true);
-            //PlayerSample.transform.position = SpawnPonts[id - 1].position;
-            //PlayerSample.transform.rotation = Quaternion.identity;
-            //если ок, то создаем префаб в точке взятую из листа
             PhotonNetwork.Instantiate(PlayerSample.name, SpawnPonts[id - 1].position, Quaternion.identity);
+
+            Debug.Log("Подключен игрок по id" + id+" " + " - с номером " + PhotonNetwork.CurrentRoom.PlayerCount);
         }
+    }
+    void Update()
+    {
+
     }
 
     public void SayHello()//сказать фотону отправить указаный метод
@@ -71,8 +67,5 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"Игрок ID {playerId} передал Привет");
     }
-    void Update()
-    {
 
-    }
 }

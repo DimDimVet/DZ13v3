@@ -1,33 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
-public class Healt : MonoBehaviour
+public class PlayerHealt : MonoBehaviour
 {
-    public HealtSetting SettingsData;
-    //[Inject] private IRegistrator dataReg;//получим данные управления в структуре
-    /*[HideInInspector]*/ public int HealtCount = 0;
+    [SerializeField] private HealtSetting settingsData;
+
+    [HideInInspector] public int HealtCount = 0;
     [HideInInspector] public int Damage;
     [HideInInspector] public bool Dead = false;
-    public string dataTest;
     void Start()
     {
-        HealtCount=SettingsData.Healt;
+        if (settingsData.Healt != 0)
+        {
+            HealtCount = settingsData.Healt;
+        }
+
     }
 
     void Update()
     {
-        if (Damage!=0)
+        if (Damage != 0)
         {
             HealtContoll(Damage);
-            Damage=0;
+            Damage = 0;
         }
     }
     public void HealtContoll(int damage)
     {
         HealtCount -= damage;
-        if (HealtCount<=0)
+        if (HealtCount <= 0)
         {
             Dead = true;
             Destroy(gameObject, 1);

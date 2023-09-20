@@ -50,4 +50,16 @@ public class RegistratorExecutor : IRegistrator
         }
         return new RegistratorConstruction();
     }
+
+    public RegistratorConstruction GetDataPlayer()
+    {
+        for (int i = 0; i < GlobalList.DataObject.Count; i++)
+        {
+            if (GlobalList.DataObject[i].PlayerHealt is PlayerHealt)
+            {
+                return GlobalList.DataObject[i];
+            }
+        }
+        return new RegistratorConstruction();
+    }
 }
