@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   SpeedMove: 30
-  Force: 25
-  Height: 12
+  Force: 5
+  Height: 5
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1

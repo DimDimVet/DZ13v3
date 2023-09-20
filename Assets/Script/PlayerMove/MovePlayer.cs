@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
-    //Класс движения персонажем, получаем из UserInput, цепляем на персонаж
-    private UserInput userInput;
-
     [SerializeField] private MoveSettings moveSettings;
     [SerializeField] private Transform cameraPoint;
 
+    private int hashGO;
     private IRegistrator dataReg;
-    private RegistratorConstruction rezultList;
+    private RegistratorConstruction rezultListCamera;
+    private RegistratorConstruction rezultListInput;
 
     private float speedMove;
     private Transform transformCamera;
@@ -18,48 +17,56 @@ public class MovePlayer : MonoBehaviour
 
     void Start()
     {
-        userInput = GetComponent<UserInput>();
+        hashGO=gameObject.GetHashCode();
+
         speedMove = moveSettings.SpeedMove;
-        //ищем камеру
+        //ищем камеру и управление
         dataReg = new RegistratorExecutor();//доступ к листу
-        rezultList = dataReg.GetDataCamera();
+        rezultListInput = dataReg.GetData(hashGO);
+        rezultListCamera = dataReg.GetDataCamera();
 
     }
 
     void Update()
     {
-        if (rezultList.CameraMove == null)
+        if (rezultListCamera.CameraMove == null)
         {
-            rezultList = dataReg.GetDataCamera();
+            rezultListCamera = dataReg.GetDataCamera();
+            return;
+        }
+        if (rezultListInput.UserInput == null)
+        {
+            rezultListInput = dataReg.GetData(hashGO);
             return;
         }
 
-        rezultList.CameraMove.GetTransformPointCamera= transformCamera;
-        angleCamera = rezultList.CameraMove.AngleCamera;
+        rezultListCamera.CameraMove.GetTransformPointCamera= transformCamera;
+        angleCamera = rezultListCamera.CameraMove.AngleCamera;
 
         transform.Rotate(Vector3.up, angleCamera.x);//поворот мышью
         transformCamera=cameraPoint;
 
-        if (userInput.InputData.Move.y > 0)
+
+        if (rezultListInput.UserInput.InputData.Move.y > 0)
         {
             Vector3 currentPosition = transform.position;
             currentPosition += transform.forward / speedMove;
             transform.position = currentPosition;
         }
-        if (userInput.InputData.Move.y < 0)
+        if (rezultListInput.UserInput.InputData.Move.y < 0)
         {
             Vector3 currentPosition = transform.position;
             currentPosition -= transform.forward / speedMove;
             transform.position = currentPosition;
         }
 
-        if (userInput.InputData.Move.x > 0)
+        if (rezultListInput.UserInput.InputData.Move.x > 0)
         {
             Vector3 currentPosition = transform.position;
             currentPosition += transform.right / speedMove;
             transform.position = currentPosition;
         }
-        if (userInput.InputData.Move.x < 0)
+        if (rezultListInput.UserInput.InputData.Move.x < 0)
         {
             Vector3 currentPosition = transform.position;
             currentPosition -= transform.right / speedMove;
