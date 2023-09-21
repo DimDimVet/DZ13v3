@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e0e5d1b8e952648bfe5c7817563248, type: 3}
   m_Name: BullPlayer
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 150
   Speed: 150

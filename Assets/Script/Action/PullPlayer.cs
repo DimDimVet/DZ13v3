@@ -28,9 +28,9 @@ public class PullPlayer : MonoBehaviour
 
         //ищем управление
         dataReg = new RegistratorExecutor();//доступ к листу
-        rezultListInput = dataReg.GetDataUserInput();
+        rezultListInput = dataReg.GetDataPlayer();
 
-        isCurrentPlayer=rezultListInput.CurrentHash;
+        //isCurrentPlayer=rezultListInput.PhotonHash;
     }
 
     void Update()
@@ -39,7 +39,7 @@ public class PullPlayer : MonoBehaviour
         {
             if (rezultListInput.UserInput == null)
             {
-                rezultListInput = dataReg.GetDataUserInput();
+                rezultListInput = dataReg.GetDataPlayer();
                 return;
             }
 

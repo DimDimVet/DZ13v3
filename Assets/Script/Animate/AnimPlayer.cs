@@ -25,14 +25,14 @@ public class AnimPlayer : MonoBehaviour
         animator =gameObject.GetComponent<Animator>();
         //ищем управление
         dataReg = new RegistratorExecutor();//доступ к листу
-        rezultListInput = dataReg.GetDataUserInput();
+        rezultListInput = dataReg.GetDataPlayer();
 
         speed = animSettings.Speed;
         animSpeed = animSettings.AnimSpeed;
         animJamp = animSettings.AnimJamp;
         animDead = animSettings.AnimDead;
 
-        isCurrentPlayer=rezultListInput.CurrentHash;
+        //isCurrentPlayer=rezultListInput.PhotonHash;
     }
 
     private bool ControlGO()
@@ -55,7 +55,7 @@ public class AnimPlayer : MonoBehaviour
         {
             if (rezultListInput.UserInput == null)
             {
-                rezultListInput = dataReg.GetDataUserInput();
+                rezultListInput = dataReg.GetDataPlayer();
                 return;
             }
         }

@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ public class RegistratorExecutor : IRegistrator
     {
         for (int i = 0; i < GlobalList.DataObject.Count; i++)
         {
-            if (GlobalList.DataObject[i].Hash==hash)
+            if (GlobalList.DataObject[i].Hash == hash)
             {
                 return GlobalList.DataObject[i];
             }
@@ -26,31 +27,25 @@ public class RegistratorExecutor : IRegistrator
         return new RegistratorConstruction();
     }
 
+    public void SetDataCameraReLoad(RegistratorConstruction data)
+    {
+        for (int i = 0; i < GlobalList.DataObject.Count; i++)
+        {
+            if (GlobalList.DataObject[i].Hash == data.Hash)
+            {
+                GlobalList.DataObject[i] = data;
+            }
+        }
+    }
     public RegistratorConstruction GetDataCamera()
     {
         for (int i = 0; i < GlobalList.DataObject.Count; i++)
         {
-            if (GlobalList.DataObject[i].CameraMove is CameraMove)
+            if (GlobalList.DataObject[i].CameraMove != null && GlobalList.DataObject[i].PhotonHash)
             {
-                if (GlobalList.DataObject[i].CurrentHash)
-                {
-                    return GlobalList.DataObject[i];
-                }
-            }
-        }
-        return new RegistratorConstruction();
-    }
 
-    public RegistratorConstruction GetDataUserInput()
-    {
-        for (int i = 0; i < GlobalList.DataObject.Count; i++)
-        {
-            if (GlobalList.DataObject[i].UserInput is UserInput)
-            {
-                if (GlobalList.DataObject[i].CurrentHash)
-                {
-                    return GlobalList.DataObject[i];
-                }
+                return GlobalList.DataObject[i];
+
             }
         }
         return new RegistratorConstruction();
@@ -60,14 +55,12 @@ public class RegistratorExecutor : IRegistrator
     {
         for (int i = 0; i < GlobalList.DataObject.Count; i++)
         {
-            if (GlobalList.DataObject[i].PlayerHealt is PlayerHealt)
+            if (GlobalList.DataObject[i].PhotonHash && GlobalList.DataObject[i].CameraMove == null)
             {
-                if (GlobalList.DataObject[i].CurrentHash)
-                {
-                    return GlobalList.DataObject[i];
-                }
+                return GlobalList.DataObject[i];
             }
         }
         return new RegistratorConstruction();
     }
+
 }

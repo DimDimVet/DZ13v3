@@ -27,12 +27,12 @@ public class ShootPlayer : MonoBehaviour
     {
         //ищем управление
         dataReg = new RegistratorExecutor();//доступ к листу
-        rezultListInput = dataReg.GetDataUserInput();
+        rezultListInput = dataReg.GetDataPlayer();
 
         dataReg.OutPos = outBullet;
         shootDelay =actionSettings.ShootDelay;
         StartCoroutine(Example());
-        isCurrentPlayer=rezultListInput.CurrentHash;
+        //isCurrentPlayer=rezultListInput.PhotonHash;
     }
 
     void Update()
@@ -41,7 +41,7 @@ public class ShootPlayer : MonoBehaviour
         {
             if (rezultListInput.UserInput == null)
             {
-                rezultListInput = dataReg.GetDataUserInput();
+                rezultListInput = dataReg.GetDataPlayer();
                 return;
             }
 

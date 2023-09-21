@@ -1,24 +1,28 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TestList : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public bool Str=false;
+    List<RegistratorConstruction> tt;
     void Start()
     {
         RegistratorExecutor executor = new RegistratorExecutor();
-        var tt = executor.GetDataList();
-
-        for (int i = 0; i < tt.Count; i++)
-        {
-            //Debug.Log($"{tt[i].CurrentHash}- {tt[i].Hash}");
-        }
+        tt = GlobalList.DataObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Str)
+        {
+            for (int i = 0; i < tt.Count; i++)
+            {
+                Debug.Log($"{tt[i].PhotonHash}- {tt[i].Hash} - {PhotonView.Get(this.gameObject).IsMine}");
+            }
+            Str = false;
+        }
     }
 }

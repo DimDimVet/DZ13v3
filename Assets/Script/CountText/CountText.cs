@@ -20,8 +20,14 @@ public class CountText : MonoBehaviour
 
     void Update()
     {
-        if (rezultListPlayer.CurrentHash)
+        if (rezultListPlayer.UserInput == null)
         {
+            rezultListPlayer = dataReg.GetDataPlayer();
+            return;
+        }
+
+        //if (/*rezultListPlayer.PhotonHash*/)
+        //{
             if (rezultListPlayer.PlayerHealt == null)
             {
                 rezultListPlayer = dataReg.GetDataPlayer();
@@ -42,7 +48,7 @@ public class CountText : MonoBehaviour
             {
                 textCountBull.text = $"{rezultListPlayer.ShootPlayer.CountBull}";
             }
-        }
+        //}
        
     }
 }

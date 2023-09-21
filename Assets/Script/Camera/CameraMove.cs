@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
+    
     [HideInInspector] public float2 AngleCamera;
     [HideInInspector] public Transform GetTransformPointCamera;
     //
     [SerializeField] private CameraSettings cameraSettings;
 
     private IRegistrator dataReg;
-    private RegistratorConstruction rezultList;
+    private RegistratorConstruction rezultListInput;
 
     private float2 inputMouse;
     private float yRot;
@@ -18,10 +19,11 @@ public class CameraMove : MonoBehaviour
     private float minStopAngle;
     private float maxStopAngle;
     private Vector3 setPos;
-
+    private bool isRun;
     void Start()
     {
         //Cursor.lockState = CursorLockMode.Locked;
+        //setPos = transform.position;
         setPos = transform.position;
         //settings
         mouseSensor = cameraSettings.MouseSensor;
@@ -32,20 +34,30 @@ public class CameraMove : MonoBehaviour
 
         //Найдем источника мыши управления камерой
         dataReg = new RegistratorExecutor();//доступ к листу
-        rezultList = dataReg.GetDataUserInput();
+        rezultListInput = dataReg.GetDataPlayer();
+
+        //if (rezultListInput.PhotonHash)
+        //{
+        //    isRun = rezultListInput.PhotonHash;
+        //}
     }
 
     void Update()
     {
-        if (rezultList.CurrentHash)
+        if (isRun==false) 
         {
-            if (rezultList.UserInput == null)
+            //rezultListInput = dataReg.GetDataPlayer();
+            var hashCamera= dataReg.GetDataCamera();
+            if (hashCamera.PhotonHash== rezultListInput.PhotonHash)
             {
-                rezultList = dataReg.GetDataUserInput();
-                return;
+                isRun = rezultListInput.PhotonHash;
             }
-            inputMouse = rezultList.UserInput.InputData.Mouse;
+            rezultListInput = dataReg.GetDataPlayer();
+        }
 
+        if (isRun)
+        {
+            inputMouse = rezultListInput.UserInput.InputData.Mouse;
 
             AngleCamera = inputMouse * mouseSensor * Time.deltaTime;
             yRot -= AngleCamera.y;

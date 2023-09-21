@@ -8,8 +8,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 {
     public GameObject PlayerSample;
     public List<Transform> SpawnPonts;
+    private int id;
 
-    void Start()
+    void Awake()
     {
         PhotonNetwork.ConnectUsingSettings();//запустим тестовый мастер-сервер
     }
@@ -30,18 +31,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     //возьмем в родителе OnJoinedRoom()
     public override void OnJoinedRoom()
     {
-        int id = PhotonNetwork.LocalPlayer.ActorNumber;
+        id = PhotonNetwork.LocalPlayer.ActorNumber;
 
         //проверим на ошибку количества
-        if (id > (SpawnPonts.Count+1))
+        if (id > (SpawnPonts.Count + 1))
         {
             Debug.Log("Нет свободной точки");
         }
         else
         {
-            PhotonNetwork.Instantiate(PlayerSample.name, SpawnPonts[id - 1].position, Quaternion.identity);
-
-            Debug.Log("Подключен игрок по id" + id+" " + " - с номером " + PhotonNetwork.CurrentRoom.PlayerCount);
+            GameObject tr = PhotonNetwork.Instantiate(PlayerSample.name, SpawnPonts[id - 1].position, Quaternion.identity);
+            tr.name = $"Id {id}";
+            GlobalList.PhotonIdPlayer = id;
+            // Debug.Log("Подключен игрок по id" + id + " " + PhotonView.Get(this.gameObject).IsMine + " " + PhotonView.Get(this.gameObject).GetHashCode() + " - с номером " + PhotonNetwork.CurrentRoom.PlayerCount);
 
         }
     }

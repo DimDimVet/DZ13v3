@@ -13,31 +13,25 @@ public class MovePlayer : MonoBehaviour
     private float speedMove;
     private Transform transformCamera;
     private float2 angleCamera;
-
+    private bool isRun;
     void Start()
     {
         speedMove = moveSettings.SpeedMove;
         //ищем камеру и управление
         dataReg = new RegistratorExecutor();//доступ к листу
-        rezultListInput = dataReg.GetDataUserInput();
+        rezultListInput = dataReg.GetDataPlayer();
         rezultListCamera = dataReg.GetDataCamera();
 
+        if (rezultListInput.PhotonHash)
+        {
+            isRun = rezultListInput.PhotonHash;
+        }
+        
     }
 
     void Update()
     {
-        if (rezultListCamera.CameraMove == null)
-        {
-            rezultListCamera = dataReg.GetDataCamera();
-            return;
-        }
-        if (rezultListInput.UserInput == null)
-        {
-            rezultListInput = dataReg.GetDataUserInput();
-            return;
-        }
-
-        if (rezultListInput.CurrentHash)
+        if (isRun)
         {
             rezultListCamera.CameraMove.GetTransformPointCamera= transformCamera;
             angleCamera = rezultListCamera.CameraMove.AngleCamera;
