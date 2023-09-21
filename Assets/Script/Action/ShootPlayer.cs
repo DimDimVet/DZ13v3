@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ public class ShootPlayer : MonoBehaviour
     //
     [SerializeField] private ActionSettings actionSettings;
     //
-    private int hashGO;
+    private bool isCurrentPlayer;
     private IRegistrator dataReg;
     private RegistratorConstruction rezultListInput;
 
@@ -24,29 +25,32 @@ public class ShootPlayer : MonoBehaviour
 
     private void Start()
     {
-
         //ищем управление
-        hashGO=gameObject.GetHashCode();
         dataReg = new RegistratorExecutor();//доступ к листу
-        rezultListInput = dataReg.GetData(hashGO);
+        rezultListInput = dataReg.GetDataUserInput();
 
         dataReg.OutPos = outBullet;
         shootDelay =actionSettings.ShootDelay;
         StartCoroutine(Example());
+        isCurrentPlayer=rezultListInput.CurrentHash;
     }
 
     void Update()
     {
-        if (rezultListInput.UserInput == null)
+        if (isCurrentPlayer)
         {
-            rezultListInput = dataReg.GetData(hashGO);
-            return;
-        }
+            if (rezultListInput.UserInput == null)
+            {
+                rezultListInput = dataReg.GetDataUserInput();
+                return;
+            }
 
-        if (rezultListInput.UserInput.InputData.Shoot != 0)//получим нажатие
-        {
-            Shoot();
+            if (rezultListInput.UserInput.InputData.Shoot != 0)//получим нажатие
+            {
+                Shoot();
+            }
         }
+        
     }
     private IEnumerator Example()
     {

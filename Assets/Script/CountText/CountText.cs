@@ -20,25 +20,29 @@ public class CountText : MonoBehaviour
 
     void Update()
     {
-        if (rezultListPlayer.PlayerHealt == null)
+        if (rezultListPlayer.CurrentHash)
         {
-            rezultListPlayer = dataReg.GetDataPlayer();
-            return;
-        }
+            if (rezultListPlayer.PlayerHealt == null)
+            {
+                rezultListPlayer = dataReg.GetDataPlayer();
+                return;
+            }
 
-        if (rezultListPlayer.ShootPlayer == null)
-        {
-            rezultListPlayer = dataReg.GetDataPlayer();
-            return;
-        }
+            if (rezultListPlayer.ShootPlayer == null)
+            {
+                rezultListPlayer = dataReg.GetDataPlayer();
+                return;
+            }
 
-        if (rezultListPlayer.PlayerHealt != null)
-        {
-            textHealt.text = $"{rezultListPlayer.PlayerHealt.HealtCount}";
+            if (rezultListPlayer.PlayerHealt != null)
+            {
+                textHealt.text = $"{rezultListPlayer.PlayerHealt.HealtCount}";
+            }
+            if (rezultListPlayer.ShootPlayer != null)
+            {
+                textCountBull.text = $"{rezultListPlayer.ShootPlayer.CountBull}";
+            }
         }
-        if (rezultListPlayer.ShootPlayer != null)
-        {
-            textCountBull.text = $"{rezultListPlayer.ShootPlayer.CountBull}";
-        }
+       
     }
 }

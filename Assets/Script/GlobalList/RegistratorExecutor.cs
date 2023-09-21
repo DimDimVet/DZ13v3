@@ -22,7 +22,6 @@ public class RegistratorExecutor : IRegistrator
             {
                 return GlobalList.DataObject[i];
             }
-            
         }
         return new RegistratorConstruction();
     }
@@ -33,7 +32,10 @@ public class RegistratorExecutor : IRegistrator
         {
             if (GlobalList.DataObject[i].CameraMove is CameraMove)
             {
-                return GlobalList.DataObject[i];
+                if (GlobalList.DataObject[i].CurrentHash)
+                {
+                    return GlobalList.DataObject[i];
+                }
             }
         }
         return new RegistratorConstruction();
@@ -45,7 +47,10 @@ public class RegistratorExecutor : IRegistrator
         {
             if (GlobalList.DataObject[i].UserInput is UserInput)
             {
-                return GlobalList.DataObject[i];
+                if (GlobalList.DataObject[i].CurrentHash)
+                {
+                    return GlobalList.DataObject[i];
+                }
             }
         }
         return new RegistratorConstruction();
@@ -57,7 +62,10 @@ public class RegistratorExecutor : IRegistrator
         {
             if (GlobalList.DataObject[i].PlayerHealt is PlayerHealt)
             {
-                return GlobalList.DataObject[i];
+                if (GlobalList.DataObject[i].CurrentHash)
+                {
+                    return GlobalList.DataObject[i];
+                }
             }
         }
         return new RegistratorConstruction();

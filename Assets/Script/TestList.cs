@@ -12,7 +12,7 @@ public class TestList : MonoBehaviour
 
         for (int i = 0; i < tt.Count; i++)
         {
-            //Debug.Log(tt[i]);
+            //Debug.Log($"{tt[i].CurrentHash}- {tt[i].Hash}");
         }
     }
 

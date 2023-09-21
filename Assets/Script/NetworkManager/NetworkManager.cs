@@ -9,10 +9,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject PlayerSample;
     public List<Transform> SpawnPonts;
 
-    private int hashGO;
-    private IRegistrator dataReg;
-    private RegistratorConstruction rezultListInput;
-
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();//запустим тестовый мастер-сервер
@@ -35,7 +31,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         int id = PhotonNetwork.LocalPlayer.ActorNumber;
-        
+
         //проверим на ошибку количества
         if (id > (SpawnPonts.Count+1))
         {
@@ -46,6 +42,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate(PlayerSample.name, SpawnPonts[id - 1].position, Quaternion.identity);
 
             Debug.Log("Подключен игрок по id" + id+" " + " - с номером " + PhotonNetwork.CurrentRoom.PlayerCount);
+
         }
     }
     void Update()

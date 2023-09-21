@@ -6,7 +6,6 @@ public class MovePlayer : MonoBehaviour
     [SerializeField] private MoveSettings moveSettings;
     [SerializeField] private Transform cameraPoint;
 
-    private int hashGO;
     private IRegistrator dataReg;
     private RegistratorConstruction rezultListCamera;
     private RegistratorConstruction rezultListInput;
@@ -17,12 +16,10 @@ public class MovePlayer : MonoBehaviour
 
     void Start()
     {
-        hashGO=gameObject.GetHashCode();
-
         speedMove = moveSettings.SpeedMove;
         //ищем камеру и управление
         dataReg = new RegistratorExecutor();//доступ к листу
-        rezultListInput = dataReg.GetData(hashGO);
+        rezultListInput = dataReg.GetDataUserInput();
         rezultListCamera = dataReg.GetDataCamera();
 
     }
@@ -36,41 +33,44 @@ public class MovePlayer : MonoBehaviour
         }
         if (rezultListInput.UserInput == null)
         {
-            rezultListInput = dataReg.GetData(hashGO);
+            rezultListInput = dataReg.GetDataUserInput();
             return;
         }
 
-        rezultListCamera.CameraMove.GetTransformPointCamera= transformCamera;
-        angleCamera = rezultListCamera.CameraMove.AngleCamera;
-
-        transform.Rotate(Vector3.up, angleCamera.x);//поворот мышью
-        transformCamera=cameraPoint;
-
-
-        if (rezultListInput.UserInput.InputData.Move.y > 0)
+        if (rezultListInput.CurrentHash)
         {
-            Vector3 currentPosition = transform.position;
-            currentPosition += transform.forward / speedMove;
-            transform.position = currentPosition;
-        }
-        if (rezultListInput.UserInput.InputData.Move.y < 0)
-        {
-            Vector3 currentPosition = transform.position;
-            currentPosition -= transform.forward / speedMove;
-            transform.position = currentPosition;
-        }
+            rezultListCamera.CameraMove.GetTransformPointCamera= transformCamera;
+            angleCamera = rezultListCamera.CameraMove.AngleCamera;
 
-        if (rezultListInput.UserInput.InputData.Move.x > 0)
-        {
-            Vector3 currentPosition = transform.position;
-            currentPosition += transform.right / speedMove;
-            transform.position = currentPosition;
-        }
-        if (rezultListInput.UserInput.InputData.Move.x < 0)
-        {
-            Vector3 currentPosition = transform.position;
-            currentPosition -= transform.right / speedMove;
-            transform.position = currentPosition;
+            transform.Rotate(Vector3.up, angleCamera.x);//поворот мышью
+            transformCamera=cameraPoint;
+
+
+            if (rezultListInput.UserInput.InputData.Move.y > 0)
+            {
+                Vector3 currentPosition = transform.position;
+                currentPosition += transform.forward / speedMove;
+                transform.position = currentPosition;
+            }
+            if (rezultListInput.UserInput.InputData.Move.y < 0)
+            {
+                Vector3 currentPosition = transform.position;
+                currentPosition -= transform.forward / speedMove;
+                transform.position = currentPosition;
+            }
+
+            if (rezultListInput.UserInput.InputData.Move.x > 0)
+            {
+                Vector3 currentPosition = transform.position;
+                currentPosition += transform.right / speedMove;
+                transform.position = currentPosition;
+            }
+            if (rezultListInput.UserInput.InputData.Move.x < 0)
+            {
+                Vector3 currentPosition = transform.position;
+                currentPosition -= transform.right / speedMove;
+                transform.position = currentPosition;
+            }
         }
 
     }

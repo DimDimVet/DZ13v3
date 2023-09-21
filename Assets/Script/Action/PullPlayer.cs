@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 using Zenject;
 
@@ -5,8 +6,7 @@ public class PullPlayer : MonoBehaviour
 {
                                         //
     [SerializeField] private MoveSettings moveSettings;
-
-    private int hashGO;
+    private bool isCurrentPlayer;
     private IRegistrator dataReg;
     private RegistratorConstruction rezultListInput;
 
@@ -27,23 +27,28 @@ public class PullPlayer : MonoBehaviour
         shootDelay= moveSettings.ShootDelay;
 
         //ищем управление
-        hashGO=gameObject.GetHashCode();
         dataReg = new RegistratorExecutor();//доступ к листу
-        rezultListInput = dataReg.GetData(hashGO);
+        rezultListInput = dataReg.GetDataUserInput();
+
+        isCurrentPlayer=rezultListInput.CurrentHash;
     }
 
     void Update()
     {
-        if (rezultListInput.UserInput == null)
+        if (isCurrentPlayer)
         {
-            rezultListInput = dataReg.GetData(hashGO);
-            return;
-        }
+            if (rezultListInput.UserInput == null)
+            {
+                rezultListInput = dataReg.GetDataUserInput();
+                return;
+            }
 
-        if (rezultListInput.UserInput.InputData.Pull != 0)//получим нажатие
-        {
-            Jamp();
+            if (rezultListInput.UserInput.InputData.Pull != 0)//получим нажатие
+            {
+                Jamp();
+            }
         }
+        
     }
 
     public void Jamp()

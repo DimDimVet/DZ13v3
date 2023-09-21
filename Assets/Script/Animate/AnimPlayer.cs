@@ -1,12 +1,11 @@
+using Photon.Pun;
 using Unity.Mathematics;
 using UnityEngine;
-using Zenject;
 
 public class AnimPlayer : MonoBehaviour
 {
     [SerializeField] private AnimSettings animSettings;
-
-    private int hashGO;
+    private bool isCurrentPlayer;
     private IRegistrator dataReg;
     private RegistratorConstruction rezultListInput;
 
@@ -17,45 +16,51 @@ public class AnimPlayer : MonoBehaviour
     private string animDead;
 
     private Animator animator;
-    
+
     private float refDistance = 0.01f;
     private float2 distans;
 
     void Start()
     {
-        hashGO=gameObject.GetHashCode();
         animator =gameObject.GetComponent<Animator>();
-
         //ищем управление
         dataReg = new RegistratorExecutor();//доступ к листу
-        rezultListInput = dataReg.GetData(hashGO);
+        rezultListInput = dataReg.GetDataUserInput();
 
         speed = animSettings.Speed;
         animSpeed = animSettings.AnimSpeed;
         animJamp = animSettings.AnimJamp;
         animDead = animSettings.AnimDead;
+
+        isCurrentPlayer=rezultListInput.CurrentHash;
     }
 
-    private bool ControlGO(int hashGO)
+    private bool ControlGO()
     {
-        if (rezultListInput.Hash==hashGO)//доп проверка
+
+        if (rezultListInput.HealtObj!=null)
         {
-            if (rezultListInput.HealtObj!=null)
-            {
-                return rezultListInput.HealtObj.Dead;
-            }
-            if (rezultListInput.PlayerHealt!=null)
-            {
-                return rezultListInput.PlayerHealt.Dead;
-            }
+            return rezultListInput.HealtObj.Dead;
         }
+        if (rezultListInput.PlayerHealt!=null)
+        {
+            return rezultListInput.PlayerHealt.Dead;
+        }
+
         return false;
     }
     void Update()
     {
-        if (rezultListInput.UserInput == null)
+        if (isCurrentPlayer)
         {
-            rezultListInput = dataReg.GetData(hashGO);
+            if (rezultListInput.UserInput == null)
+            {
+                rezultListInput = dataReg.GetDataUserInput();
+                return;
+            }
+        }
+        else
+        {
             return;
         }
 
@@ -85,7 +90,7 @@ public class AnimPlayer : MonoBehaviour
             }
 
             ////dead
-            if (ControlGO(hashGO))
+            if (ControlGO())
             {
                 animator.SetBool(animDead, true);
             }
