@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -314,11 +314,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00685dfda225c204ab54592584f004ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSample: {fileID: 3578534708849729858, guid: 982320c966d15da44aae47d89176e199, type: 3}
+  PlayerSample: {fileID: 2392829252395131476, guid: 982320c966d15da44aae47d89176e199, type: 3}
   SpawnPonts:
   - {fileID: 706619812}
   - {fileID: 1509634499}
-  id: 0
 --- !u!4 &179129839
 Transform:
   m_ObjectHideFlags: 0

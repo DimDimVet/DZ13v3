@@ -24,24 +24,7 @@ public class Registrator : MonoBehaviour
             registrator.PhotonHash = PhotonView.Get(this.gameObject).IsMine;
             registrator.Hash = GlobalList.PhotonIdPlayer;
         }
-
-        if (registrator.CameraMove!=null && registrator.PhotonHash==false)
-        {
-            IRegistrator dataReg=new RegistratorExecutor();
-            RegistratorConstruction rezultListInput = dataReg.GetDataPlayer();
-            registrator.PhotonHash = rezultListInput.PhotonHash;
-        }
-
         dataReg.SetData(registrator);
     }
-    private void Update()
-    {
-        if (registrator.CameraMove != null && registrator.PhotonHash == false)
-        {
-            IRegistrator dataReg = new RegistratorExecutor();
-            RegistratorConstruction rezultListInput = dataReg.GetDataPlayer();
-            registrator.PhotonHash = rezultListInput.PhotonHash;
-            dataReg.SetDataCameraReLoad(registrator);
-        }
-    }
+
 }

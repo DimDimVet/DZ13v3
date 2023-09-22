@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
+    [HideInInspector] public Transform transformPlayer;
+
     [SerializeField] private MoveSettings moveSettings;
     [SerializeField] private Transform cameraPoint;
 
@@ -31,7 +33,12 @@ public class MovePlayer : MonoBehaviour
 
     void Update()
     {
-        if (isRun)
+        //ищем если не нашли
+        if (rezultListCamera.CameraMove==null)
+        {
+            rezultListCamera = dataReg.GetDataCamera();
+        }
+        if (isRun && rezultListCamera.PhotonHash==isRun)
         {
             rezultListCamera.CameraMove.GetTransformPointCamera= transformCamera;
             angleCamera = rezultListCamera.CameraMove.AngleCamera;
@@ -65,6 +72,8 @@ public class MovePlayer : MonoBehaviour
                 currentPosition -= transform.right / speedMove;
                 transform.position = currentPosition;
             }
+
+            transformPlayer=transform;
         }
 
     }

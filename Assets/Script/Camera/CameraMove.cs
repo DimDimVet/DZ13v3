@@ -19,6 +19,9 @@ public class CameraMove : MonoBehaviour
     private float minStopAngle;
     private float maxStopAngle;
     private Vector3 setPos;
+
+    private Vector3 posPlayer;
+
     private bool isRun;
     void Start()
     {
@@ -33,23 +36,27 @@ public class CameraMove : MonoBehaviour
         //originRotation = transform.rotation;
 
         //Найдем источника мыши управления камерой
-        dataReg = new RegistratorExecutor();//доступ к листу
-        rezultListInput = dataReg.GetDataPlayer();
+        //dataReg = new RegistratorExecutor();//доступ к листу
+        //rezultListInput = dataReg.GetDataPlayer();
 
-        //if (rezultListInput.PhotonHash)
-        //{
-        //    isRun = rezultListInput.PhotonHash;
-        //}
+    }
+    public void ConnectPlayer(RegistratorConstruction player)
+    { //Найдем источника мыши управления камерой
+        rezultListInput=player;
     }
 
     void Update()
     {
+        posPlayer=rezultListInput.UserInput.transform.position;
+
+
         if (isRun==false) 
         {
             //rezultListInput = dataReg.GetDataPlayer();
             var hashCamera= dataReg.GetDataCamera();
             if (hashCamera.PhotonHash== rezultListInput.PhotonHash)
             {
+                Debug.Log(hashCamera.Hash +""+ hashCamera.PhotonHash);
                 isRun = rezultListInput.PhotonHash;
             }
             rezultListInput = dataReg.GetDataPlayer();
