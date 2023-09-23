@@ -12,6 +12,7 @@ public class CountText : MonoBehaviour
     private IRegistrator dataReg;
     private RegistratorConstruction rezultListPlayer;
 
+    private bool isRun;
     void Start()
     {
         dataReg = new RegistratorExecutor();//доступ к листу
@@ -20,35 +21,26 @@ public class CountText : MonoBehaviour
 
     void Update()
     {
-        if (rezultListPlayer.UserInput == null)
+
+        //ищем если не нашли
+        if (isRun == false)
         {
             rezultListPlayer = dataReg.GetDataPlayer();
-            return;
+            isRun = rezultListPlayer.PhotonHash;
         }
 
-        //if (/*rezultListPlayer.PhotonHash*/)
-        //{
-            if (rezultListPlayer.PlayerHealt == null)
-            {
-                rezultListPlayer = dataReg.GetDataPlayer();
-                return;
-            }
-
-            if (rezultListPlayer.ShootPlayer == null)
-            {
-                rezultListPlayer = dataReg.GetDataPlayer();
-                return;
-            }
-
-            if (rezultListPlayer.PlayerHealt != null)
-            {
+        if (isRun)
+        {
+            Debug.Log(rezultListPlayer.PlayerHealt.HealtCount+"="+ isRun);
+            //if (rezultListPlayer.PlayerHealt != null)
+            //{
                 textHealt.text = $"{rezultListPlayer.PlayerHealt.HealtCount}";
-            }
+            //}
             if (rezultListPlayer.ShootPlayer != null)
             {
                 textCountBull.text = $"{rezultListPlayer.ShootPlayer.CountBull}";
             }
-        //}
-       
+        }
+
     }
 }

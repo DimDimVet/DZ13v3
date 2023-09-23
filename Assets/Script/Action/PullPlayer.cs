@@ -6,7 +6,7 @@ public class PullPlayer : MonoBehaviour
 {
                                         //
     [SerializeField] private MoveSettings moveSettings;
-    private bool isCurrentPlayer;
+
     private IRegistrator dataReg;
     private RegistratorConstruction rezultListInput;
 
@@ -30,12 +30,11 @@ public class PullPlayer : MonoBehaviour
         dataReg = new RegistratorExecutor();//доступ к листу
         rezultListInput = dataReg.GetDataPlayer();
 
-        //isCurrentPlayer=rezultListInput.PhotonHash;
     }
 
     void Update()
     {
-        if (isCurrentPlayer)
+        if (PhotonView.Get(this.gameObject).IsMine)
         {
             if (rezultListInput.UserInput == null)
             {

@@ -9,6 +9,7 @@ public struct RegistratorConstruction
     public PlayerHealt PlayerHealt;
     public ShootPlayer ShootPlayer;
     public CameraMove CameraMove;
+    public string Name;
     public UserInput UserInput;
 
 }

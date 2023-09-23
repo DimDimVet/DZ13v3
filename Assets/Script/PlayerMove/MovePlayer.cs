@@ -1,10 +1,10 @@
+using Photon.Pun;
+using System.ComponentModel;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
-    [HideInInspector] public Transform transformPlayer;
-
     [SerializeField] private MoveSettings moveSettings;
     [SerializeField] private Transform cameraPoint;
 
@@ -15,7 +15,7 @@ public class MovePlayer : MonoBehaviour
     private float speedMove;
     private Transform transformCamera;
     private float2 angleCamera;
-    private bool isRun;
+
     void Start()
     {
         speedMove = moveSettings.SpeedMove;
@@ -24,27 +24,24 @@ public class MovePlayer : MonoBehaviour
         rezultListInput = dataReg.GetDataPlayer();
         rezultListCamera = dataReg.GetDataCamera();
 
-        if (rezultListInput.PhotonHash)
-        {
-            isRun = rezultListInput.PhotonHash;
-        }
-        
     }
 
     void Update()
     {
-        //ищем если не нашли
-        if (rezultListCamera.CameraMove==null)
+        if (PhotonView.Get(this.gameObject).IsMine)/*PhotonView.Get(this.gameObject).IsMine*/
         {
-            rezultListCamera = dataReg.GetDataCamera();
-        }
-        if (isRun && rezultListCamera.PhotonHash==isRun)
-        {
-            rezultListCamera.CameraMove.GetTransformPointCamera= transformCamera;
+            //ищем если не нашли
+            if (rezultListCamera.CameraMove == null)
+            {
+                rezultListCamera = dataReg.GetDataCamera();
+                return;
+            }
+
+            rezultListCamera.CameraMove.GetTransformPointCamera = transformCamera;
             angleCamera = rezultListCamera.CameraMove.AngleCamera;
 
             transform.Rotate(Vector3.up, angleCamera.x);//поворот мышью
-            transformCamera=cameraPoint;
+            transformCamera = cameraPoint;
 
 
             if (rezultListInput.UserInput.InputData.Move.y > 0)
@@ -72,8 +69,6 @@ public class MovePlayer : MonoBehaviour
                 currentPosition -= transform.right / speedMove;
                 transform.position = currentPosition;
             }
-
-            transformPlayer=transform;
         }
 
     }

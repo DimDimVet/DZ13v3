@@ -7,7 +7,6 @@ public class ShootPlayer : MonoBehaviour
     //
     [SerializeField] private ActionSettings actionSettings;
     //
-    private bool isCurrentPlayer;
     private IRegistrator dataReg;
     private RegistratorConstruction rezultListInput;
 
@@ -32,12 +31,12 @@ public class ShootPlayer : MonoBehaviour
         dataReg.OutPos = outBullet;
         shootDelay =actionSettings.ShootDelay;
         StartCoroutine(Example());
-        //isCurrentPlayer=rezultListInput.PhotonHash;
+
     }
 
     void Update()
     {
-        if (isCurrentPlayer)
+        if (PhotonView.Get(this.gameObject).IsMine)
         {
             if (rezultListInput.UserInput == null)
             {

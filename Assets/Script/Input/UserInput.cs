@@ -16,7 +16,7 @@ public class UserInput : MonoBehaviour
 
         inputAction = new MapCurrent();//инициализируем карту input
         InputData=new InputData();
-        
+
         if (inputAction!=null)//проверим на null
         {
             //подпишем на event события нажатий и значения присвоим локальным переменым

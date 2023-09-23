@@ -42,8 +42,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             GameObject tr = PhotonNetwork.Instantiate(PlayerSample.name, SpawnPonts[id - 1].position, Quaternion.identity);
             tr.name = $"Id {id}";
-            GlobalList.PhotonIdPlayer = id;
+            //GlobalList.PhotonIdPlayer = id;
             // Debug.Log("Подключен игрок по id" + id + " " + PhotonView.Get(this.gameObject).IsMine + " " + PhotonView.Get(this.gameObject).GetHashCode() + " - с номером " + PhotonNetwork.CurrentRoom.PlayerCount);
+            
+            
 
         }
     }

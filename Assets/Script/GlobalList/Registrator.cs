@@ -22,8 +22,8 @@ public class Registrator : MonoBehaviour
         if (PhotonView.Get(this.gameObject) is PhotonView)
         {
             registrator.PhotonHash = PhotonView.Get(this.gameObject).IsMine;
-            registrator.Hash = GlobalList.PhotonIdPlayer;
         }
+
         dataReg.SetData(registrator);
     }
 

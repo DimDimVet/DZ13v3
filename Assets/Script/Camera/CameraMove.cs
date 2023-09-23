@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    
+
     [HideInInspector] public float2 AngleCamera;
     [HideInInspector] public Transform GetTransformPointCamera;
     //
@@ -18,48 +18,28 @@ public class CameraMove : MonoBehaviour
     private float mouseSensor;
     private float minStopAngle;
     private float maxStopAngle;
-    private Vector3 setPos;
-
-    private Vector3 posPlayer;
 
     private bool isRun;
     void Start()
     {
         //Cursor.lockState = CursorLockMode.Locked;
-        //setPos = transform.position;
-        setPos = transform.position;
         //settings
         mouseSensor = cameraSettings.MouseSensor;
         minStopAngle = cameraSettings.MinStopAngle;
         maxStopAngle = cameraSettings.MaxStopAngle;
-        //
-        //originRotation = transform.rotation;
 
         //Найдем источника мыши управления камерой
-        //dataReg = new RegistratorExecutor();//доступ к листу
-        //rezultListInput = dataReg.GetDataPlayer();
+        dataReg = new RegistratorExecutor();//доступ к листу
+        rezultListInput = dataReg.GetDataPlayer();
 
     }
-    public void ConnectPlayer(RegistratorConstruction player)
-    { //Найдем источника мыши управления камерой
-        rezultListInput=player;
-    }
-
     void Update()
     {
-        posPlayer=rezultListInput.UserInput.transform.position;
-
-
-        if (isRun==false) 
+        //ищем если не нашли
+        if (isRun == false)
         {
-            //rezultListInput = dataReg.GetDataPlayer();
-            var hashCamera= dataReg.GetDataCamera();
-            if (hashCamera.PhotonHash== rezultListInput.PhotonHash)
-            {
-                Debug.Log(hashCamera.Hash +""+ hashCamera.PhotonHash);
-                isRun = rezultListInput.PhotonHash;
-            }
             rezultListInput = dataReg.GetDataPlayer();
+            isRun = rezultListInput.PhotonHash;
         }
 
         if (isRun)

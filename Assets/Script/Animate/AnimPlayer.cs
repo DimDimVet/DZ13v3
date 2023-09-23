@@ -1,11 +1,10 @@
-using Photon.Pun;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class AnimPlayer : MonoBehaviour
 {
     [SerializeField] private AnimSettings animSettings;
-    private bool isCurrentPlayer;
+
     private IRegistrator dataReg;
     private RegistratorConstruction rezultListInput;
 
@@ -20,9 +19,10 @@ public class AnimPlayer : MonoBehaviour
     private float refDistance = 0.01f;
     private float2 distans;
 
+    private bool isRun;
     void Start()
     {
-        animator =gameObject.GetComponent<Animator>();
+        animator = gameObject.GetComponent<Animator>();
         //ищем управление
         dataReg = new RegistratorExecutor();//доступ к листу
         rezultListInput = dataReg.GetDataPlayer();
@@ -32,17 +32,16 @@ public class AnimPlayer : MonoBehaviour
         animJamp = animSettings.AnimJamp;
         animDead = animSettings.AnimDead;
 
-        //isCurrentPlayer=rezultListInput.PhotonHash;
     }
 
     private bool ControlGO()
     {
 
-        if (rezultListInput.HealtObj!=null)
+        if (rezultListInput.HealtObj != null)
         {
             return rezultListInput.HealtObj.Dead;
         }
-        if (rezultListInput.PlayerHealt!=null)
+        if (rezultListInput.PlayerHealt != null)
         {
             return rezultListInput.PlayerHealt.Dead;
         }
@@ -51,21 +50,21 @@ public class AnimPlayer : MonoBehaviour
     }
     void Update()
     {
-        if (isCurrentPlayer)
+        //ищем если не нашли
+        if (isRun == false)
         {
-            if (rezultListInput.UserInput == null)
+            rezultListInput = dataReg.GetDataPlayer();
+            isRun = rezultListInput.PhotonHash;
+        }
+
+        if (isRun)
+        {
+            if (rezultListInput.PhotonHash == false)
             {
                 rezultListInput = dataReg.GetDataPlayer();
                 return;
             }
-        }
-        else
-        {
-            return;
-        }
 
-        if (animator != null)
-        {
             distans.x = Mathf.Abs(rezultListInput.UserInput.InputData.Move.x);
             distans.y = Mathf.Abs(rezultListInput.UserInput.InputData.Move.y);
 

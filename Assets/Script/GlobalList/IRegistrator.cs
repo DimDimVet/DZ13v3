@@ -6,6 +6,5 @@ public interface IRegistrator
     void SetData(RegistratorConstruction data);
     RegistratorConstruction GetData(int hash);
     RegistratorConstruction GetDataCamera();
-    void SetDataCameraReLoad(RegistratorConstruction data);
     RegistratorConstruction GetDataPlayer();
 }
