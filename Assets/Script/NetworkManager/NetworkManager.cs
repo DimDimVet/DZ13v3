@@ -9,7 +9,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject PlayerSample;
     public List<Transform> SpawnPonts;
     private int id;
-
+    //
+    public List<GameObject> InterObject;
+    public List<Transform> InterTransformObject;
     void Awake()
     {
         PhotonNetwork.ConnectUsingSettings();//запустим тестовый мастер-сервер
@@ -40,12 +42,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         else
         {
+            
             GameObject tr = PhotonNetwork.Instantiate(PlayerSample.name, SpawnPonts[id - 1].position, Quaternion.identity);
             tr.name = $"Id {id}";
             //GlobalList.PhotonIdPlayer = id;
             // Debug.Log("Подключен игрок по id" + id + " " + PhotonView.Get(this.gameObject).IsMine + " " + PhotonView.Get(this.gameObject).GetHashCode() + " - с номером " + PhotonNetwork.CurrentRoom.PlayerCount);
-            
-            
+
+            for (int i = 0; i < InterTransformObject.Count; i++)
+            {
+                PhotonNetwork.Instantiate(InterObject[i].name, InterTransformObject[i].position, Quaternion.identity);
+            }
 
         }
     }
