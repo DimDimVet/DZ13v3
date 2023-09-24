@@ -20,7 +20,7 @@ public class TestList : MonoBehaviour
         {
             for (int i = 0; i < tt.Count; i++)
             {
-                Debug.Log($"{tt[i].PhotonHash}- {tt[i].Hash} - {PhotonView.Get(this.gameObject).IsMine} -{tt[i].Name}");
+                Debug.Log($"{tt[i].PhotonIsMainGO}- {tt[i].Hash} - {PhotonView.Get(this.gameObject).IsMine} -{tt[i].Name}");
             }
             Str = false;
         }

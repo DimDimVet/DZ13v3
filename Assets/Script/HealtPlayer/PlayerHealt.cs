@@ -10,6 +10,11 @@ public class PlayerHealt : MonoBehaviour
     [HideInInspector] public int HealtCount;
     [HideInInspector] public int Damage;
     [HideInInspector] public bool Dead = false;
+
+    //private bool isOneTriger = true;
+
+    private IRegistrator dataReg;
+    private RegistratorConstruction rezultNetManager;
     void Start()
     {
         if (settingsData.Healt != 0)
@@ -21,27 +26,23 @@ public class PlayerHealt : MonoBehaviour
     void Update()
     {
 
-            if (Damage != 0)
+        if (Damage != 0)
+        {
+            HealtCount -= Damage;
+            if (HealtCount <= 0)
             {
-                //HealtContoll(Damage);
-                HealtCount-=Damage;
-                if (HealtCount <= 0)
-                {
-                    Dead = true;
-                    Destroy(gameObject, 1);
-                }
-                Damage = 0;
+                Dead = true;
+                DestoyGO();
+                //isOneTriger = false;
             }
-        Debug.Log(HealtCount);
-
+            Damage = 0;
+        }
     }
-    //public void HealtContoll(int damage)
-    //{
-    //    HealtCount=StartHealt - damage;
-    //    if (HealtCount <= 0)
-    //    {
-    //        Dead = true;
-    //        Destroy(gameObject, 1);
-    //    }
-    //}
+
+    public void DestoyGO()
+    {
+        dataReg = new RegistratorExecutor();//доступ к листу
+        rezultNetManager = dataReg.NetManager();
+        rezultNetManager.NetworkManager.DestroyThisGO(this.gameObject);
+    }
 }

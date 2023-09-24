@@ -16,6 +16,7 @@ public class MovePlayer : MonoBehaviour
     private Transform transformCamera;
     private float2 angleCamera;
 
+    private bool isRun;
     void Start()
     {
         speedMove = moveSettings.SpeedMove;
@@ -28,7 +29,22 @@ public class MovePlayer : MonoBehaviour
 
     void Update()
     {
-        if (PhotonView.Get(this.gameObject).IsMine)/*PhotonView.Get(this.gameObject).IsMine*/
+
+        //ищем если не нашли
+        if (isRun == false)
+        {
+            rezultListInput = dataReg.GetDataPlayer();
+            if (rezultListInput.PhotonIsMainGO)
+            {
+                if (rezultListInput.UserInput != null)
+                {
+                    isRun = rezultListInput.PhotonIsMainGO;
+                }
+            }
+
+        }
+
+        if (PhotonView.Get(this.gameObject).IsMine && isRun)/*PhotonView.Get(this.gameObject).IsMine*/
         {
             //ищем если не нашли
             if (rezultListCamera.CameraMove == null)
@@ -36,6 +52,8 @@ public class MovePlayer : MonoBehaviour
                 rezultListCamera = dataReg.GetDataCamera();
                 return;
             }
+
+
 
             rezultListCamera.CameraMove.GetTransformPointCamera = transformCamera;
             angleCamera = rezultListCamera.CameraMove.AngleCamera;

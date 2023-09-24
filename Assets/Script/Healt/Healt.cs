@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 public class Healt : MonoBehaviour
@@ -8,9 +9,14 @@ public class Healt : MonoBehaviour
     [HideInInspector] public int Damage;
     [HideInInspector] public bool Dead = false;
 
+    private bool isOneTriger = true;
+
+    private IRegistrator dataReg;
+    private RegistratorConstruction rezultNetManager;
+
     void Start()
     {
-        if (settingsData.Healt!=0)
+        if (settingsData.Healt != 0)
         {
             HealtCount = settingsData.Healt;
         }
@@ -18,19 +24,27 @@ public class Healt : MonoBehaviour
 
     void Update()
     {
-        if (Damage!=0)
+        if (Damage != 0)
         {
             HealtContoll(Damage);
-            Damage=0;
+            Damage = 0;
         }
     }
     public void HealtContoll(int damage)
     {
         HealtCount -= damage;
-        if (HealtCount<=0)
+        if (HealtCount <= 0 && isOneTriger)
         {
             Dead = true;
-            Destroy(gameObject, 1);
+            DestoyGO();
+            isOneTriger = false;
         }
+    }
+
+    public void DestoyGO()
+    {
+        dataReg = new RegistratorExecutor();//доступ к листу
+        rezultNetManager = dataReg.NetManager();
+        rezultNetManager.NetworkManager.DestroyThisGO(this.gameObject);
     }
 }

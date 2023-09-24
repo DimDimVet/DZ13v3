@@ -39,7 +39,14 @@ public class CameraMove : MonoBehaviour
         if (isRun == false)
         {
             rezultListInput = dataReg.GetDataPlayer();
-            isRun = rezultListInput.PhotonHash;
+            if (rezultListInput.PhotonIsMainGO)
+            {
+                if (rezultListInput.UserInput != null)
+                {
+                    isRun = rezultListInput.PhotonIsMainGO;
+                }
+            }
+
         }
 
         if (isRun)

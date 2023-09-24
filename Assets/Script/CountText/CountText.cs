@@ -26,16 +26,20 @@ public class CountText : MonoBehaviour
         if (isRun == false)
         {
             rezultListPlayer = dataReg.GetDataPlayer();
-            isRun = rezultListPlayer.PhotonHash;
+            if (rezultListPlayer.PhotonIsMainGO)
+            {
+                if (rezultListPlayer.UserInput != null)
+                {
+                    isRun = rezultListPlayer.PhotonIsMainGO;
+                }
+            }
+
         }
 
         if (isRun)
         {
-            Debug.Log(rezultListPlayer.PlayerHealt.HealtCount+"="+ isRun);
-            //if (rezultListPlayer.PlayerHealt != null)
-            //{
-                textHealt.text = $"{rezultListPlayer.PlayerHealt.HealtCount}";
-            //}
+            textHealt.text = $"{rezultListPlayer.PlayerHealt.HealtCount}";
+
             if (rezultListPlayer.ShootPlayer != null)
             {
                 textCountBull.text = $"{rezultListPlayer.ShootPlayer.CountBull}";

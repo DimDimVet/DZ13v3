@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -54,12 +55,18 @@ public class AnimPlayer : MonoBehaviour
         if (isRun == false)
         {
             rezultListInput = dataReg.GetDataPlayer();
-            isRun = rezultListInput.PhotonHash;
+            if (rezultListInput.PhotonIsMainGO)
+            {
+                if (rezultListInput.UserInput != null)
+                {
+                    isRun = rezultListInput.PhotonIsMainGO;
+                }
+            }
         }
 
-        if (isRun)
+        if (PhotonView.Get(this.gameObject).IsMine && isRun)
         {
-            if (rezultListInput.PhotonHash == false)
+            if (rezultListInput.PhotonIsMainGO == false)
             {
                 rezultListInput = dataReg.GetDataPlayer();
                 return;
@@ -94,10 +101,5 @@ public class AnimPlayer : MonoBehaviour
                 animator.SetBool(animDead, true);
             }
         }
-        else
-        {
-            Debug.LogError("Нет компонента Аниматор");
-        }
-
     }
 }

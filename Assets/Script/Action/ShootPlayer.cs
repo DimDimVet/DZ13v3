@@ -9,6 +9,7 @@ public class ShootPlayer : MonoBehaviour
     //
     private IRegistrator dataReg;
     private RegistratorConstruction rezultListInput;
+    private RegistratorConstruction rezulNetManager;
 
     [HideInInspector] public int CountBull;
 
@@ -27,6 +28,7 @@ public class ShootPlayer : MonoBehaviour
         //ищем управление
         dataReg = new RegistratorExecutor();//доступ к листу
         rezultListInput = dataReg.GetDataPlayer();
+        rezulNetManager = dataReg.NetManager();
 
         dataReg.OutPos = outBullet;
         shootDelay =actionSettings.ShootDelay;
@@ -74,8 +76,11 @@ public class ShootPlayer : MonoBehaviour
 
         //bullFactory.Create();
         CountBull++;
-        Instantiate(bullet, outBullet.position, outBullet.rotation);
+        //Instantiate(bullet, outBullet.position, outBullet.rotation);
+        rezulNetManager.NetworkManager.BullInst(outBullet);
         gunExitParticle.Play();
+        //Photon
+        
 
     }
 }
